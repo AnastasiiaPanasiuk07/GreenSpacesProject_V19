@@ -4,16 +4,16 @@ USE green_spaces_db;
 
 CREATE TABLE tree (
                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                      species VARCHAR(100) NOT NULL,
-                      location VARCHAR(150) NOT NULL,
-                      planting_date VARCHAR(20) NOT NULL,
-                      condition_score DOUBLE NOT NULL
+                      species VARCHAR(160) NOT NULL,
+                      location VARCHAR(200) NOT NULL,
+                      planting_date INT NOT NULL,
+                      condition_score INT NOT NULL
 );
 
 CREATE TABLE inspection (
                             id BIGINT AUTO_INCREMENT PRIMARY KEY,
                             tree_id BIGINT NOT NULL,
-                            inspection_date VARCHAR(20) NOT NULL,
+                            inspection_date VARCHAR(10) NOT NULL,
                             f1 DOUBLE NOT NULL,
                             f2 DOUBLE NOT NULL,
                             f3 DOUBLE NOT NULL,
@@ -25,15 +25,15 @@ CREATE TABLE work_order_request (
                                     id BIGINT AUTO_INCREMENT PRIMARY KEY,
                                     inspection_id BIGINT NOT NULL,
                                     state VARCHAR(30) NOT NULL,
-                                    description VARCHAR(250) NOT NULL,
+                                    description VARCHAR(500) NOT NULL,
                                     FOREIGN KEY (inspection_id) REFERENCES inspection(id)
 );
 
 CREATE TABLE crew_assignment (
                                  id BIGINT AUTO_INCREMENT PRIMARY KEY,
                                  request_id BIGINT NOT NULL,
-                                 crew_name VARCHAR(100) NOT NULL,
-                                 planned_date VARCHAR(20) NOT NULL,
+                                 crew_name VARCHAR(120) NOT NULL,
+                                 description VARCHAR(500) NOT NULL,
                                  FOREIGN KEY (request_id) REFERENCES work_order_request(id)
 );
 
@@ -52,7 +52,7 @@ INSERT INTO work_order_request (inspection_id, state, description) VALUES
                                                                        (2, 'CHECKED', 'Усунення пошкоджень гілок після негоди'),
                                                                        (3, 'PLANNED', 'Термінова зрубка аварійного дерева');
 
-INSERT INTO crew_assignment (request_id, crew_name, planned_date) VALUES
-                                                                      (1, 'Бригада №1 (Зеленбуд)', '2026-10-05'),
-                                                                      (2, 'Бригада №2 (Ремонтники)', '2026-10-06'),
-                                                                      (3, 'Бригада №3 (Аварійна)', '2026-10-04');
+INSERT INTO crew_assignment (request_id, crew_name, description) VALUES
+                                                                      (1, 'Бригада №1 (Зеленбуд)', 'Виконати обрізку згідно з планом'),
+                                                                      (2, 'Бригада №2 (Ремонтники)', 'Ліквідація наслідків негоди'),
+                                                                      (3, 'Бригада №3 (Аварійна)', 'Термінові заходи безпеки');
