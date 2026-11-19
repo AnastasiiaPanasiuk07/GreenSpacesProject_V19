@@ -80,6 +80,9 @@ public class MainApp extends Application {
         refresh.setOnAction(e -> refreshTrees());
 
         importCsv.setOnAction(e -> {
+
+            importCsv.setDisable(true);
+
             ImportTreesTask task = new ImportTreesTask(Path.of("sample-data", "trees.csv"), api);
             progress.progressProperty().bind(task.progressProperty());
             status.textProperty().bind(task.messageProperty());
@@ -88,12 +91,14 @@ public class MainApp extends Application {
                 progress.progressProperty().unbind();
                 status.textProperty().unbind();
                 status.setText("Готово. Імпортовано записів: " + task.getValue());
+                importCsv.setDisable(false);
                 refreshTrees();
             });
 
             task.setOnFailed(x -> {
                 progress.progressProperty().unbind();
                 status.textProperty().unbind();
+                importCsv.setDisable(false);
                 showError(task.getException());
             });
 
@@ -208,7 +213,6 @@ public class MainApp extends Application {
         }));
 
         update.setOnAction(e -> safe(() -> {
-            // Тепер передається стан (stateCombo.getValue())
             api.updateWorkOrder(selected(workOrdersTable).getId(), Long.parseLong(inspectionId.getText()), stateCombo.getValue(), description.getText());
             refreshWorkOrders();
         }));

@@ -52,7 +52,7 @@ public class HttpGreenSpacesClient {
     }
 
     public void addWorkOrder(long inspectionId, String description) {
-        // Додано обов'язковий стан CREATED при створенні
+
         post("/work-orders", "action=add&inspectionId=" + inspectionId + "&state=CREATED&description=" + enc(description));
     }
 
@@ -87,7 +87,7 @@ public class HttpGreenSpacesClient {
     }
 
     private String inspectionForm(String action, Inspection i) {
-        // Додано обов'язковий riskIndex у тіло запиту
+
         return "action=" + action + "&treeId=" + i.getTreeId() + "&inspectionDate=" + enc(i.getInspectionDate()) +
                 "&f1=" + i.getF1() + "&f2=" + i.getF2() + "&f3=" + i.getF3() + "&riskIndex=" + i.getRiskIndex();
     }
